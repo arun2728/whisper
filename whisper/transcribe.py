@@ -144,7 +144,7 @@ def transcribe(
         all_tokens.extend(initial_prompt)
 
     def add_segment(
-        *, start: float, end: float, text_tokens: torch.Tensor, result: DecodingResult
+        *, start: float, end: float, text_tokens: torch.Tensor
     ):
         text = tokenizer.decode([token for token in text_tokens if token < tokenizer.eot])
         if len(text.strip()) == 0:  # skip empty text output
@@ -153,15 +153,15 @@ def transcribe(
         all_segments.append(
             {
                 "id": len(all_segments),
-                "seek": seek,
+                #"seek": seek,
                 "start": start,
                 "end": end,
                 "text": text,
-                "tokens": text_tokens.tolist(),
-                "temperature": result.temperature,
-                "avg_logprob": result.avg_logprob,
-                "compression_ratio": result.compression_ratio,
-                "no_speech_prob": result.no_speech_prob,
+                #"tokens": text_tokens.tolist(),
+                #"temperature": result.temperature,
+                # "avg_logprob": result.avg_logprob,
+                # "compression_ratio": result.compression_ratio,
+                # "no_speech_prob": result.no_speech_prob,
             }
         )
         if verbose:
@@ -208,7 +208,7 @@ def transcribe(
                         start=timestamp_offset + start_timestamp_position * time_precision,
                         end=timestamp_offset + end_timestamp_position * time_precision,
                         text_tokens=sliced_tokens[1:-1],
-                        result=result,
+                        #result=result,
                     )
                     last_slice = current_slice
                 last_timestamp_position = (
@@ -229,7 +229,7 @@ def transcribe(
                     start=timestamp_offset,
                     end=timestamp_offset + duration,
                     text_tokens=tokens,
-                    result=result,
+                    #result=result,
                 )
 
                 seek += segment.shape[-1]
